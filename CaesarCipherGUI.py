@@ -7,105 +7,95 @@ So key "2" encrypts "ABC" to "CDE" and "XYZ" to "ZAB".
 """
 
 import sys
+from guizero import App, Text, TextBox, ButtonGroup, Combo, CheckBox, PushButton, info
 
 
 def main():
-    # open and read file that has been specified in sys.argv or let user input text if no file has been specified
-    if len(sys.argv) == 1:
-        text = input_text()
-    else:
-        if sys.argv[1].endswith(".txt"):
-            try:
-                with open(sys.argv[1], "r") as textfile:
-                    text = textfile.read().upper()
-            except FileNotFoundError:
-                print("File not found")
-                sys.exit(1)
-        else:
-            print("Not a text file")
-            sys.exit(1)
-        
-            
-    encryptkey = input_key()
-    mode = encrypt_decrypt()
-    alphabet = make_dict()
     
+    app = App(title="Caesar Cipher", width=600, height=300, layout="grid")
+    
+    WelcomeText = Text(app, text="Welcome to Caesar Cipher", size=20, font="Arial", color="lightblue", grid=[0,0], align="left")
+    
+    TextType = Text(app, text="Do you want to type text or use a file to decrypt/encrypt? ", grid=[0,1], align="left")
+    TextTypeRadio = ButtonGroup(app, options=[["Text", "T"], ["File", "F"]], selected="T", horizontal=True, grid=[1,1], align="left")
+    
+    GiveText = Text(app, text="Please type your text: ", grid=[0,2], align="left")
+    MyTextInput = TextBox(app, text="", width=30, grid=[1,2], align="left")
+    
+    GiveFile = Text(app, text="Give file: ", grid=[0,3], align="left")
+    FileInput = TextBox(app, width=30, grid=[1,3], align="left")
+    
+    Choice = Text(app, text="Do you want do decrypt or encrypt? ", grid=[0,4], align="left")
+    ChoiceRadio = ButtonGroup(app, options=[["Decryption", "D"], ["Encryption", "E"]], selected="D", horizontal=True, grid=[1,4], align="left")
+
+    Key = Text(app, text="Please choose a key: ", grid=[0,5], align="left")
+    KeyInput = Combo(app, options=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"], grid=[1,5], align="left")
+
+    
+    
+    encryptkey = KeyInput.value
+    alphabet = make_dict()
+    mode = ChoiceRadio.value
+    
+    #if TextTypeRadio.value == "T":
+    MyText = str(MyTextInput.value)
+        
+    #elif TextTypeRadio.value == "F":
+     #   if FileInput.value.endswith(".txt"):
+      #      try:
+       #         with open(FileInput.value, "r") as textfile:
+        #            text = textfile.read().upper()
+         #   except FileNotFoundError:
+          #      print("File not found")
+           #     sys.exit(1)
+        #else:
+         #   print("Not a text file")
+          #  sys.exit(1)
+        
+    StartProcess = PushButton(app, command=lambda: encryptdecrypt(mode, MyText, encryptkey, alphabet), text="Start encryption/decryption now", grid=[1,6], align="left")
+    
+    app.display()
+        
 
     #encryption
-    if mode == "encrypt":
-        encrypttext = encrypt(text, encryptkey, alphabet)
-        if len(sys.argv) == 1:
-            print(encrypttext)
-        else:
-            with open(sys.argv[1].removesuffix(".txt") + "Encrypt.txt", "w") as textfile2:
-                textfile2.write(encrypttext)
+   # if mode == "encrypt":
+    #    encrypttext = encrypt(text, encryptkey, alphabet)
+     #   if len(sys.argv) == 1:
+      #      print(encrypttext)
+       # else:
+        #    with open(sys.argv[1].removesuffix(".txt") + "Encrypt.txt", "w") as textfile2:
+         #       textfile2.write(encrypttext)
     
     
     #decryption        
-    elif mode == "decrypt":
-        decrypttext = decrypt(text, encryptkey, alphabet)
-        if len(sys.argv) == 1:
-            print(decrypttext)
-        else:
-            with open(sys.argv[1].removesuffix(".txt") + "Decrypt.txt", "w") as textfile2:
-                textfile2.write(decrypttext)
+    #elif mode == "decrypt":
+     #   decrypttext = decrypt(text, encryptkey, alphabet)
+      #  if len(sys.argv) == 1:
+       #     print(decrypttext)
+        #else:
+         #   with open(sys.argv[1].removesuffix(".txt") + "Decrypt.txt", "w") as textfile2:
+          #      textfile2.write(decrypttext)
     
     
     # reverse the operation
-    rev = reverse()
-    if rev == "yes":
-        if mode == "encrypt":
-            decrypttext = decrypt(encrypttext, encryptkey, alphabet)
-            if len(sys.argv) == 1:
-                print(decrypttext)
-            else:
-                with open(sys.argv[1].removesuffix(".txt") + "Decrypt.txt", "w") as textfile2:
-                    textfile2.write(decrypttext)
-        elif mode == "decrypt":
-            encrypttext = encrypt(decrypttext, encryptkey, alphabet)
-            if len(sys.argv) == 1:
-                print(encrypttext)
-            else:
-                with open(sys.argv[1].removesuffix(".txt") + "Encrypt.txt", "w") as textfile2:
-                    textfile2.write(encrypttext)
-    else:
-        sys.exit(0)
-    
-    
-# input encryption key between 1 - 25
-def input_key():
-    count = 0
-    while True:
-        try:
-            if count >= 5:
-                print("Seriously? Just type a correct number already...")
-            encryptkey = input("Give number between 1 and 25: ")
-            if int(encryptkey) >= 1 and int(encryptkey) <= 25:
-                return int(encryptkey)
-            else:
-                print("Please type a number between 1 and 25")
-                count += 1
-                continue
-        except ValueError():
-            continue
-         
-            
-# choose mode encryption or decryption
-def encrypt_decrypt():
-    count = 0
-    while True:
-        try:
-            if count >= 5:
-                print("Seriously? Just type a correct mode already...")
-            mode = input("Do you want to encrypt or decrypt? " ).strip().lower()
-            if mode == "encrypt" or mode == "decrypt":
-                return mode
-            else:
-                print("Please type encrypt or decrypt.")
-                count += 1
-                continue
-        except ValueError():
-            continue
+    #rev = reverse()
+    #if rev == "yes":
+     #   if mode == "encrypt":
+      #      decrypttext = decrypt(encrypttext, encryptkey, alphabet)
+       #     if len(sys.argv) == 1:
+        #        print(decrypttext)
+         #   else:
+          #      with open(sys.argv[1].removesuffix(".txt") + "Decrypt.txt", "w") as textfile2:
+           #         textfile2.write(decrypttext)
+        #elif mode == "decrypt":
+         #   encrypttext = encrypt(decrypttext, encryptkey, alphabet)
+          #  if len(sys.argv) == 1:
+           #     print(encrypttext)
+            #else:
+             #   with open(sys.argv[1].removesuffix(".txt") + "Encrypt.txt", "w") as textfile2:
+              #      textfile2.write(encrypttext)
+    #else:
+     #   sys.exit(0)
     
     
 # reverse the initial operation
@@ -125,13 +115,6 @@ def reverse():
         except ValueError():
             continue
       
-        
-# input text
-def input_text():
-    text = input("Give text to encrypt/decrypt: ").strip().upper()
-    return text
-
-
 # make dictionary with letters and number in alphabet
 def make_dict():
     alphabet = {
@@ -165,37 +148,45 @@ def make_dict():
     return alphabet
 
 
-# encrypt text
-def encrypt(text, encryptkey, alphabet):
-    encrypttext = ""
-    for letter in text:
-        if letter.isalpha() == False:
-            key = letter
-        else:    
-            n = get_value(letter, alphabet)
-            n = n + encryptkey
-            if n > 26:
-                n = n - 26
-            key = get_key(n, alphabet)
-        encrypttext += key
-    return encrypttext
 
+def encryptdecrypt(mode, MyText, encryptkey, alphabet):
+    print(mode)
+    print(encryptkey)
+    print(MyText)
+    print(alphabet)
+    # encryption is chosen
+    if mode == "E":
+        encrypttext = ""
+        for letter in MyText:
+            if letter.isalpha() == False:
+                key = letter
+            else:    
+                n = get_value(letter, alphabet)
+                n = n + encryptkey
+                if n > 26:
+                    n = n - 26
+                key = get_key(n, alphabet)
+            encrypttext += key
+        result = encrypttext
+        
+    # decryption is chosen
+    elif mode == "D":
+        decrypttext = ""
+        for letter in MyText:
+            if letter.isalpha() == False:
+                key = letter
+            else:
+                n = get_value(letter, alphabet)
+                n = n - encryptkey
+                if n <= 0:
+                    n = n + 26
+                key = get_key(n, alphabet)
+            decrypttext += key
+        result = decrypttext
+        
+    info("Result", f"{result}")
 
-# decrypt text
-def decrypt(text, encryptkey, alphabet):
-    decrypttext = ""
-    for letter in text:
-        if letter.isalpha() == False:
-            key = letter
-        else:
-            n = get_value(letter, alphabet)
-            n = n - encryptkey
-            if n <= 0:
-                n = n + 26
-            key = get_key(n, alphabet)
-        decrypttext += key
-    return decrypttext
-
+    
 
 # retrieve number in alphabet from given letter
 def get_value(letter, alphabet):
