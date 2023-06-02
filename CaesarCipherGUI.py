@@ -179,21 +179,21 @@ app.display()
     
     
 # reverse the initial operation
-def reverse():
-    count = 0
-    while True:
-        try:
-            if count >= 5:
-                print("Seriously? Just type yes or no already...")
-            rev = input("Do you want to reverse the process? yes/no ").strip().lower()
-            if rev == "yes" or rev == "no":
-                return rev
-            else:
-                print("Please type yes or no.")
-                count += 1
-                continue
-        except ValueError():
-            continue
+#def reverse():
+ #   count = 0
+  #  while True:
+   #     try:
+    #        if count >= 5:
+     #           print("Seriously? Just type yes or no already...")
+      #      rev = input("Do you want to reverse the process? yes/no ").strip().lower()
+       #     if rev == "yes" or rev == "no":
+        #        return rev
+         #   else:
+          #      print("Please type yes or no.")
+           #     count += 1
+            #    continue
+        #except ValueError():
+         #   continue
       
 
     
