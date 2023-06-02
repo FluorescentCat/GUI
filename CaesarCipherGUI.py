@@ -76,8 +76,8 @@ def encryptdecrypt(mode, MyText, encryptkey, alphabet):
             decrypttext += key
         result = decrypttext
         
-    info("Result", f"{mode}{encryptkey}{MyText}{result}")
-
+    #info("Result", f"{mode}{encryptkey}{MyText}{result}")
+    print(mode,encryptkey,MyText,result)
     
 
 # retrieve number in alphabet from given letter
