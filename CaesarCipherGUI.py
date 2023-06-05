@@ -46,6 +46,9 @@ def make_dict():
 
 def encryptdecrypt(mode, MyText, encryptkey, alphabet):
     
+    MyText = MyText.upper()
+    encryptkey = int(encryptkey)
+    
     # encryption is chosen
     if mode == "E":
         encrypttext = ""
@@ -76,8 +79,8 @@ def encryptdecrypt(mode, MyText, encryptkey, alphabet):
             decrypttext += key
         result = decrypttext
         
-    #info("Result", f"{mode}{encryptkey}{MyText}{result}")
-    print(mode,encryptkey,MyText,result)
+    info("Result", f"{result}")
+    
     
 
 # retrieve number in alphabet from given letter
@@ -91,112 +94,53 @@ def get_key(n, alphabet):
     key = list(filter(lambda x: alphabet[x] == n, alphabet))[0]
     return key
 
-#def main():
-    
-app = App(title="Caesar Cipher", width=600, height=300, layout="grid")
-    
-WelcomeText = Text(app, text="Welcome to Caesar Cipher", size=20, font="Arial", color="lightblue", grid=[0,0], align="left")
-    
-TextType = Text(app, text="Do you want to type text or use a file to decrypt/encrypt? ", grid=[0,1], align="left")
-TextTypeRadio = ButtonGroup(app, options=[["Text", "T"], ["File", "F"]], selected="T", horizontal=True, grid=[1,1], align="left")
-    
-GiveText = Text(app, text="Please type your text: ", grid=[0,2], align="left")
-MyTextInput = TextBox(app, text="", width=30, grid=[1,2], align="left")
-    
-GiveFile = Text(app, text="Give file: ", grid=[0,3], align="left")
-FileInput = TextBox(app, width=30, grid=[1,3], align="left")
-    
-Choice = Text(app, text="Do you want do decrypt or encrypt? ", grid=[0,4], align="left")
-ChoiceRadio = ButtonGroup(app, options=[["Decryption", "D"], ["Encryption", "E"]], selected="D", horizontal=True, grid=[1,4], align="left")
 
-Key = Text(app, text="Please choose a key: ", grid=[0,5], align="left")
-KeyInput = Combo(app, options=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"], grid=[1,5], align="left")
 
+def main():
     
-encryptkey = KeyInput.value
-alphabet = make_dict()
-mode = ChoiceRadio.value
+    app = App(title="Caesar Cipher", width=600, height=300, layout="grid")
     
-    #if TextTypeRadio.value == "T":
-MyText = str(MyTextInput.value)
-        
-    #elif TextTypeRadio.value == "F":
-     #   if FileInput.value.endswith(".txt"):
-      #      try:
-       #         with open(FileInput.value, "r") as textfile:
-        #            text = textfile.read().upper()
-         #   except FileNotFoundError:
-          #      print("File not found")
-           #     sys.exit(1)
-        #else:
-         #   print("Not a text file")
-          #  sys.exit(1)
-        
-StartProcess = PushButton(app, command=lambda: encryptdecrypt(mode=mode, MyText=MyText, encryptkey=encryptkey, alphabet=alphabet), text="Start encryption/decryption now", grid=[1,6], align="left")
+    WelcomeText = Text(app, text="Welcome to Caesar Cipher", size=20, font="Arial", color="lightblue", grid=[0,0], align="left")
     
-app.display()
+    #TextType = Text(app, text="Do you want to type text or use a file to decrypt/encrypt? ", grid=[0,1], align="left")
+    #TextTypeRadio = ButtonGroup(app, options=[["Text", "T"], ["File", "F"]], selected="T", horizontal=True, grid=[1,1], align="left")
+    
+    GiveText = Text(app, text="Please type your text: ", grid=[0,2], align="left")
+    MyTextInput = TextBox(app, text="", width=30, grid=[1,2], align="left")
         
+    #GiveFile = Text(app, text="Give file: ", grid=[0,3], align="left")
+    #FileInput = TextBox(app, width=30, grid=[1,3], align="left")
+        
+    Choice = Text(app, text="Do you want do decrypt or encrypt? ", grid=[0,4], align="left")
+    ChoiceRadio = ButtonGroup(app, options=[["Decryption", "D"], ["Encryption", "E"]], selected="E", horizontal=True, grid=[1,4], align="left")
 
-    #encryption
-   # if mode == "encrypt":
-    #    encrypttext = encrypt(text, encryptkey, alphabet)
-     #   if len(sys.argv) == 1:
-      #      print(encrypttext)
-       # else:
-        #    with open(sys.argv[1].removesuffix(".txt") + "Encrypt.txt", "w") as textfile2:
-         #       textfile2.write(encrypttext)
-    
-    
-    #decryption        
-    #elif mode == "decrypt":
-     #   decrypttext = decrypt(text, encryptkey, alphabet)
-      #  if len(sys.argv) == 1:
-       #     print(decrypttext)
-        #else:
-         #   with open(sys.argv[1].removesuffix(".txt") + "Decrypt.txt", "w") as textfile2:
-          #      textfile2.write(decrypttext)
-    
-    
-    # reverse the operation
-    #rev = reverse()
-    #if rev == "yes":
-     #   if mode == "encrypt":
-      #      decrypttext = decrypt(encrypttext, encryptkey, alphabet)
-       #     if len(sys.argv) == 1:
-        #        print(decrypttext)
-         #   else:
-          #      with open(sys.argv[1].removesuffix(".txt") + "Decrypt.txt", "w") as textfile2:
-           #         textfile2.write(decrypttext)
-        #elif mode == "decrypt":
-         #   encrypttext = encrypt(decrypttext, encryptkey, alphabet)
-          #  if len(sys.argv) == 1:
-           #     print(encrypttext)
+    Key = Text(app, text="Please choose a key: ", grid=[0,5], align="left")
+    KeyInput = Combo(app, options=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"], grid=[1,5], align="left")
+
+    alphabet = make_dict()
+
+        
+        #if TextTypeRadio.value == "T":
+    #MyText = str(MyTextInput.value)
+            
+        #elif TextTypeRadio.value == "F":
+        #   if FileInput.value.endswith(".txt"):
+        #      try:
+        #         with open(FileInput.value, "r") as textfile:
+            #            text = textfile.read().upper()
+            #   except FileNotFoundError:
+            #      print("File not found")
+            #     sys.exit(1)
             #else:
-             #   with open(sys.argv[1].removesuffix(".txt") + "Encrypt.txt", "w") as textfile2:
-              #      textfile2.write(encrypttext)
-    #else:
-     #   sys.exit(0)
+            #   print("Not a text file")
+            #  sys.exit(1)
     
+    StartProcess = PushButton(app, command=lambda: encryptdecrypt(mode=ChoiceRadio.value, MyText=MyTextInput.value, encryptkey=KeyInput.value, alphabet=alphabet), text="Start encryption/decryption now", grid=[1,6], align="left")
     
-# reverse the initial operation
-#def reverse():
- #   count = 0
-  #  while True:
-   #     try:
-    #        if count >= 5:
-     #           print("Seriously? Just type yes or no already...")
-      #      rev = input("Do you want to reverse the process? yes/no ").strip().lower()
-       #     if rev == "yes" or rev == "no":
-        #        return rev
-         #   else:
-          #      print("Please type yes or no.")
-           #     count += 1
-            #    continue
-        #except ValueError():
-         #   continue
-      
+    app.display()
+        
 
     
     
-#if __name__ == "__main__":
- #   main()
+if __name__ == "__main__":
+    main()
